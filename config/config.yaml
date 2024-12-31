@@ -1,4 +1,4 @@
-# Configuration options of cellsnplite-vireo pipeline for the demultiplexing of scRNAseq data
+# Configuration options of cellranger pipeline for the 10X scRNAseq data
 
 # test parameters
 test01: 'resources/test01.txt'
