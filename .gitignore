@@ -1,0 +1,8 @@
+.snakemake/
+*.mro
+output/
+logs/
+benchmarks/
+_*
+chnk*
+fork*

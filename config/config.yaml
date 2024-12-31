@@ -1,0 +1,51 @@
+# Configuration options of cellsnplite-vireo pipeline for the demultiplexing of scRNAseq data
+
+# test parameters
+test01: 'resources/test01.txt'
+test02: 'resources/test02.txt'
+
+# parameters cellranger
+# specify the cellranger verions from the conda
+# env_cellranger: '/home/edo/micromamba/envs/env_cellranger7' 
+env_cellranger: 'env_cellranger8'
+# env_cellranger: 'env_cellranger6.1'
+
+# specify the reference for the transcriptome
+# cluster
+# transcriptome: '/beegfs/scratch/ric.cosr/pedrini.edoardo/reference/cellranger/refdata-gex-GRCh38-2020-A'
+# local
+transcriptome: '/home/edo/Documents/reference/cellranger/reference/refdata-gex-GRCh38-2020-A'
+
+# specify the run parameters
+cellranger_RAM: 64
+cellranger_RAM2: 64000
+cellranger_CPU: 8
+INTRON_param: '--include-introns'
+INTRON_flag: 'false'
+BAM_flag: 'true'
+
+# list of samples
+# SAMPLES: ['highCO2_sample1', 'highCO2_sample2', 'highCO2_sample3', 'lowCO2_sample1', 'lowCO2_sample2', 'lowCO2_sample3']
+
+# specify the folder with the project files
+# cluster
+# FASTQ_location: "/beegfs/scratch/ric.absinta/ric.absinta/runs/240712_A00626_0830_BHH73NDSXC_3/Project_AbsintaM_2308_scRNAseq/"
+# out_location: "/beegfs/scratch/ric.absinta/ric.absinta/analysis/BS_run05/cellranger7/"
+# local
+FASTQ_location: "/media/edo/sandiskSSD/work/training/snakemake/test_cellranger/input/FASTQ/"
+out_location: "/media/edo/sandiskSSD/work/training/snakemake/test_cellranger/pipeline_02/"
+
+# Sample names
+SAMPLES:
+  10X_LIB_P19:
+    expectCells: 10000
+    location:
+    INTRON_flag: 'true'
+  10X_LIB_P8Q:
+    expectCells: 10000
+    location:
+    INTRON_flag: 'false'
+  10X_LIB_P9G:
+    expectCells: 10000
+    location:
+    INTRON_flag: 'true'
