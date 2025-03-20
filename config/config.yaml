@@ -3,26 +3,33 @@
 # test parameters
 test01: 'resources/test01.txt'
 test02: 'resources/test02.txt'
+test_out: 'resources/test_out.txt'
 
 # parameters cellranger
 # specify the cellranger verions from the conda
 # env_cellranger: '/home/edo/micromamba/envs/env_cellranger7' 
 env_cellranger: 'env_cellranger8'
+env_bioinfo: 'bioinfo'
 # env_cellranger: 'env_cellranger6.1'
 
 # specify the reference for the transcriptome
 # cluster
 # transcriptome: '/beegfs/scratch/ric.cosr/pedrini.edoardo/reference/cellranger/refdata-gex-GRCh38-2020-A'
 # local
-transcriptome: '/home/edo/Documents/reference/cellranger/reference/refdata-gex-GRCh38-2020-A'
+# transcriptome: '/home/edo/Documents/reference/cellranger/reference/refdata-gex-GRCh38-2020-A'
+
+# local test
+transcriptome: '/media/edo/sandiskSSD/work/training/snakemake/sample_data/cellranger_tiny_ref'
 
 # specify the run parameters
 cellranger_RAM: 64
-cellranger_RAM2: 64000
 cellranger_CPU: 8
 INTRON_param: '--include-introns'
-INTRON_flag: 'false'
+INTRON_flag: 'true'
 BAM_flag: 'true'
+
+filtering_RAM: 16
+filtering_CPU: 4
 
 # list of samples
 # SAMPLES: ['highCO2_sample1', 'highCO2_sample2', 'highCO2_sample3', 'lowCO2_sample1', 'lowCO2_sample2', 'lowCO2_sample3']
@@ -32,20 +39,30 @@ BAM_flag: 'true'
 # FASTQ_location: "/beegfs/scratch/ric.absinta/ric.absinta/runs/240712_A00626_0830_BHH73NDSXC_3/Project_AbsintaM_2308_scRNAseq/"
 # out_location: "/beegfs/scratch/ric.absinta/ric.absinta/analysis/BS_run05/cellranger7/"
 # local
-FASTQ_location: "/media/edo/sandiskSSD/work/training/snakemake/test_cellranger/input/FASTQ/"
-out_location: "/media/edo/sandiskSSD/work/training/snakemake/test_cellranger/pipeline_02/"
+# FASTQ_location: "/media/edo/sandiskSSD/work/training/snakemake/test_cellranger/input/FASTQ/"
+FASTQ_location: "/media/edo/sandiskSSD/work/training/snakemake/sample_data/"
+
+out_location: "output/"
 
 # Sample names
 SAMPLES:
-  10X_LIB_P19:
+  tinygex:
     expectCells: 10000
     location:
     INTRON_flag: 'true'
-  10X_LIB_P8Q:
-    expectCells: 10000
-    location:
-    INTRON_flag: 'false'
-  10X_LIB_P9G:
+  tinygex2:
     expectCells: 10000
     location:
     INTRON_flag: 'true'
+  # 10X_LIB_P19:
+  #   expectCells: 10000
+  #   location:
+  #   INTRON_flag: 'true'
+  # 10X_LIB_P8Q:
+  #   expectCells: 10000
+  #   location:
+  #   INTRON_flag: 'false'
+  # 10X_LIB_P9G:
+  #   expectCells: 10000
+  #   location:
+  #   INTRON_flag: 'true'

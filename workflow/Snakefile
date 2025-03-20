@@ -7,59 +7,54 @@ The aim is to run the cellranger pipeline automatically on all the samples defin
 configfile: 'config/config.yaml'
 
 # Rules to execute the workflow
-include: 'rules/analysis.smk'
+include: 'rules/cellranger_processing.smk'
+include: 'rules/cellranger_IntronExon.smk'
 
-# # Master rule that launches the workflow
-# rule all_test:
+
+# Master rules to launches the workflow
+rule minimal_cellranger:
+    '''
+    rule to run the default analysis using cellranger.
+    '''
+    input:
+        expand(rules.runCellranger.output.output, sample=config['SAMPLES'])
+
+
+# default rule to run the cellranger pipeline
+rule default_cellranger:
+    '''
+    rule to run the default analysis using cellranger.
+    '''
+    input:
+        expand(rules.moveCellrangerSummary.output.summary, sample=config['SAMPLES']),
+        rules.runMultiqc1.output.html
+
+# rule to lauch default cellranger with the option to use the intronic exonic pure fitlering
+rule pure_IntronExon:
+    '''
+    rule to produce the pure exon bam file.
+    '''
+    input:
+        expand(rules.moveCellrangerSummary.output.summary, sample=config['SAMPLES']),
+        expand(rules.moveCellrangerIntronExon.output.bam_file, sample=config['SAMPLES']),
+        expand(rules.runPureExon.output.exon_count, sample=config['SAMPLES']),
+        expand(rules.runPureIntron.output.intron_count, sample=config['SAMPLES']),
+        expand(rules.runPureAll.output.all_count, sample=config['SAMPLES']),
+        rules.runMultiqc1.output.html,
+        rules.copyGtf.output.gtf
+
+# rule all_cellranger_test:
 #     '''
-#     Dummy rule to automatically generate up to the vireo demultiplexing assessment.
+#     rule to run the default analysis using cellranger.
 #     '''
 #     input:
-#         expand(rules.run_cellranger_test.output.output, sample=config['SAMPLES'])
+#         expand(rules.runCellranger_alt.output.output, sample=config['SAMPLES'])
 
-# # Master rule that launches the workflow
-# rule all_test:
-#     '''
-#     Dummy rule to automatically generate up to the vireo demultiplexing assessment.
-#     '''
-#     input:
-#         expand(rules.run_cellranger.output.folder, sample=config['SAMPLES'])
-
-
-# Master rule that launches the workflow
+# ---------------------------------------------------------------------------- #
+# Test rule to make sure the Snakemake setup is working
 rule all_test:
     '''
-    Dummy rule to automatically generate up to the vireo demultiplexing assessment.
+    testing rule
     '''
     input:
-        expand(rules.move_cellranger.output.summary, sample=config['SAMPLES'])
-
-
-# test rule
-rule test:
-    '''
-    This is a test rule
-    '''
-    input:
-        test = config['test01']
-    conda:
-        config['env_cellranger']
-    output:
-        test = 'resources/test_out.txt'
-    log:
-        'logs/test/test.log'
-    benchmark:
-        'benchmarks/test/test.txt'
-    resources:
-        mem_mb = 500,
-        cpus = 1
-    threads: 1
-    params:
-        annotations = config['test02']
-    shell:
-        '''
-        echo "run the test" > {log}
-        cat {input.test} > {output.test}
-        cat {params.annotations} | awk 'NR<=10' >> {output.test}
-        echo "test done" >> {log}
-        '''
+        rules.test.output.test
